@@ -1,0 +1,613 @@
+/* ==========================================================================
+   Tippecanoe County 4-H Handbook: print stylesheet for Paged.js
+   Written against the BookStack export markup:
+     .page-content            wrapper BookStack puts around the whole export
+     h1 (no id)                the book title, once, at the very top
+     ul.contents               BookStack's own generated table of contents
+     div.page-break            BookStack's manual page-break marker
+     h1[id^="chapter-"]        a Chapter entity title
+     h1[id^="page-"]           a Page entity title
+     div.chapter-hint          the small "you are in this chapter" label
+                                that BookStack prints above every page title
+     p.paragraph, .centered, .small-caps, .highlight   BookStack text classes
+   Load this after BookStack's own exported <style> block so it wins the
+   cascade, and after paged.polyfill.js has been included in <head>.
+
+   The @font-face block below only tells the browser where to look for the
+   "72" family; it does not embed the font itself. The .woff2 files still
+   have to sit at the same relative path from wherever this stylesheet is
+   actually served in the render pipeline, or the browser fails to load
+   them and silently falls back to a system font again, the same failure
+   this is meant to fix. 
+   ========================================================================== */
+
+/* ==========================================================================
+   Font faces
+   ========================================================================== */
+
+/* "72": body and heading text */
+@font-face {
+  font-family: '72';
+  src: url('https://tippe4hfair.org/handbook/fonts/72-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: '72';
+  src: url('https://tippe4hfair.org/handbook/fonts/72-Light-full.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: '72';
+  src: url('https://tippe4hfair.org/handbook/fonts/72-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: '72';
+  src: url('https://tippe4hfair.org/handbook/fonts/72-Regular-full.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: '72';
+  src: url('https://tippe4hfair.org/handbook/fonts/72-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: '72';
+  src: url('https://tippe4hfair.org/handbook/fonts/72-Italic-full.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: '72';
+  src: url('https://tippe4hfair.org/handbook/fonts/72-Semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: '72';
+  src: url('https://tippe4hfair.org/handbook/fonts/72-Semibold-full.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: '72';
+  src: url('https://tippe4hfair.org/handbook/fonts/72-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: '72';
+  src: url('https://tippe4hfair.org/handbook/fonts/72-Bold-full.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: '72';
+  src: url('https://tippe4hfair.org/handbook/fonts/72-BoldItalic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: '72';
+  src: url('https://tippe4hfair.org/handbook/fonts/72-BoldItalic-full.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: '72';
+  src: url('https://tippe4hfair.org/handbook/fonts/72-Black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: '72';
+  src: url('https://tippe4hfair.org/handbook/fonts/72-Black-full.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* "72-SemiboldDuplex": not referenced elsewhere in this file, kept here so
+   it's available if a rule ever wants it. */
+@font-face {
+  font-family: '72-SemiboldDuplex';
+  src: url('https://tippe4hfair.org/handbook/fonts/72-SemiboldDuplex.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: '72-SemiboldDuplex';
+  src: url('https://tippe4hfair.org/handbook/fonts/72-SemiboldDuplex-full.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* "72-Condensed": not referenced elsewhere in this file either, same
+   reasoning as above. */
+@font-face {
+  font-family: '72-Condensed';
+  src: url('https://tippe4hfair.org/handbook/fonts/72-Condensed.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: '72-Condensed';
+  src: url('https://tippe4hfair.org/handbook/fonts/72-Condensed-full.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: '72-Condensed';
+  src: url('https://tippe4hfair.org/handbook/fonts/72-CondensedBold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: '72-Condensed';
+  src: url('https://tippe4hfair.org/handbook/fonts/72-CondensedBold-full.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* "72-Mono": not referenced elsewhere in this file either, same reasoning
+   as above. */
+@font-face {
+  font-family: '72-Mono';
+  src: url('https://tippe4hfair.org/handbook/fonts/72Mono-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: '72-Mono';
+  src: url('https://tippe4hfair.org/handbook/fonts/72Mono-Regular-full.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: '72-Mono';
+  src: url('https://tippe4hfair.org/handbook/fonts/72Mono-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: '72-Mono';
+  src: url('https://tippe4hfair.org/handbook/fonts/72Mono-Bold-full.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Trim size and margins are not specified anywhere in the export, so this
+     defaults to US Letter with a binding-aware (asymmetric) margin, now
+     matching the actual margins measured from the original Editoria PDF
+     (0.65in outer, 0.55in inner, confirmed by measuring real text
+     positions in that file). --page-width / --page-height can still be
+     changed here directly, since the "size" property does correctly
+     resolve var(). The margin values can't be changed here alone, see
+     the note just below. */
+  --page-width: 8.5in;
+  --page-height: 11in;
+  /* These four are documentation of intent only. The @page rules below
+     use literal values instead of var() references to these, because
+     testing this file against the actual polyfill showed that
+     margin-top/bottom/left/right specifically do not reliably resolve
+     custom properties inside @page (and @page :left / @page :right)
+     at-rules in this Paged.js build, silently falling back to a
+     uniform default margin instead. Properties on ordinary elements,
+     and even other properties inside the margin-box at-rules like
+     @top-right, resolve var() correctly; it's specifically the page
+     box's own margin dimensions that don't. If you change a value
+     here, change the matching literal value below to match. */
+  --margin-top: 0.75in;
+  --margin-bottom: 0.85in;
+  --margin-outer: 0.65in;
+  --margin-inner: 0.55in;
+
+  --color-text: #1a1a1a;
+  --color-muted: #6b6b6b;
+  --color-rule: #cccccc;
+  --color-paper: #ffffff;
+
+  /* Your reference PDF's own embedded fonts are all "72" (Regular, Bold,
+     Italic, BoldItalic), for both body and headings, so this now matches
+     that rather than the Georgia/Helvetica pairing from before. The
+     fallback stack after '72' only matters if the .woff2 files aren't
+     actually reachable at render time; a sans fallback is closer to '72'
+     itself than the serif Georgia this used to fall back to. */
+  --font-body: '72', "Segoe UI", Arial, sans-serif;
+  --font-heading: '72', "Segoe UI", Arial, sans-serif;
+  --font-condensed: '72-Condensed', '72', "Segoe UI", Arial, sans-serif;
+  --font-mono: '72-Mono', "Lucida Console", monospace;
+  --font-size: 10.5pt;
+  --line-height: 1.45;
+}
+
+/* ========================================================================
+   Neutralize BookStack's own app chrome so it doesn't fight the paginated
+   layout. BookStack's exported <style> sets height/overflow/flex rules meant
+   for the live wiki UI, not a printed page.
+   ======================================================================== */
+
+html,
+body {
+  height: auto;
+  overflow: visible;
+  background: var(--color-paper);
+  display: block;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+}
+
+.page-content {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ========================================================================
+   Page geometry
+   ======================================================================== */
+
+@page {
+  size: var(--page-width) var(--page-height);
+  margin-top: 0.75in;
+  margin-bottom: 0.85in;
+}
+
+@page :right {
+  margin-left: 0.55in;
+  margin-right: 0.65in;
+
+  @top-right {
+    content: string(page-title);
+    font-family: var(--font-heading);
+    font-size: 8pt;
+    letter-spacing: 0.04em;
+    color: var(--color-muted);
+  }
+  @bottom-right {
+    content: counter(page);
+    font-family: var(--font-heading);
+    font-size: 9pt;
+    color: var(--color-text);
+  }
+}
+
+@page :left {
+  margin-left: 0.65in;
+  margin-right: 0.55in;
+
+  @top-left {
+    content: string(chapter-title);
+    font-family: var(--font-heading);
+    font-size: 8pt;
+    letter-spacing: 0.04em;
+    color: var(--color-muted);
+  }
+  @bottom-left {
+    content: counter(page);
+    font-family: var(--font-heading);
+    font-size: 9pt;
+    color: var(--color-text);
+  }
+}
+
+/* No running header/footer on the title page, or on any blank filler page
+   the polyfill inserts on its own. */
+@page :first {
+  @top-left { content: none; }
+  @top-right { content: none; }
+  @bottom-left { content: none; }
+  @bottom-right { content: none; }
+}
+
+@page :blank {
+  @top-left { content: none; }
+  @top-right { content: none; }
+  @bottom-left { content: none; }
+  @bottom-right { content: none; }
+}
+
+/* The table of contents needs to start on its own page (separate from the
+   title), and it does so with a plain break rather than a named "page:"
+   context. Testing this file through the actual polyfill showed that a
+   named page type here, or even a plain break-after on this same element,
+   both produced one genuine empty page at the handoff back to normal
+   content. A break-before here, with the following content left to wrap
+   onto its own page naturally (which it always does, since the contents
+   list is long enough to fully occupy its last page), avoids it. The cost
+   is that TOC pages carry the same running footer as any other page, which
+   is a perfectly normal thing for a printed TOC to do anyway. */
+.page-content > ul.contents {
+  break-before: page;
+}
+
+/* ========================================================================
+   Page breaks
+   BookStack already marks every chapter/page boundary with an empty
+   <div class="page-break">. This is the one rule that turns those markers
+   into real Paged.js page breaks; everything else about pagination follows
+   from it automatically.
+   ======================================================================== */
+
+.page-break {
+  break-after: page;
+}
+
+/* ========================================================================
+   Base typography
+   ======================================================================== */
+
+p.paragraph {
+  margin: 0 0 0.6em 0;
+  text-align: justify;
+  hyphens: auto;
+  orphans: 2;
+  widows: 2;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-text);
+  break-after: avoid;
+  break-inside: avoid;
+  text-transform: uppercase;
+}
+
+h2 { font-size: 1.35em; font-style: italic; margin: 1.2em 0 0.4em; }
+h3 { font-size: 1.15em; font-style: italic; margin: 1em 0 0.35em; }
+h4 { font-size: 1em; margin: 0.9em 0 0.3em; }
+
+ol,
+ul {
+  margin: 0 0 0.6em 1.2em;
+  padding: 0;
+}
+
+li {
+  break-inside: avoid;
+  margin-bottom: 0.15em;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5em 0 1em;
+  font-size: 0.95em;
+}
+
+table td,
+table th {
+  border: 1px solid var(--color-rule);
+  padding: 0.3em 0.5em;
+  vertical-align: top;
+}
+
+table tr {
+  break-inside: avoid;
+}
+
+/* Only 3 images exist in the whole document, and 2 of them are
+   full-page fillable forms (a "Page 1 of 2" record-keeping table)
+   sized to occupy nearly an entire page on their own. Giving every
+   figure its own fresh page, rather than trying to detect which ones
+   are "big" from CSS (which has no way to know an image's intrinsic
+   size), is what actually fixes the cut-off form: it starts at the
+   very top of a page with the full page height available, instead of
+   wherever it happened to land after preceding text ate into that
+   space. With only 3 images total the page cost of doing this
+   unconditionally is negligible. */
+figure {
+  margin: 1em 0;
+  text-align: center;
+  break-inside: avoid;
+  break-before: page;
+}
+
+figure img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ========================================================================
+   BookStack text classes
+   ======================================================================== */
+
+.centered {
+  text-align: center;
+}
+
+.small-caps {
+  font-variant: small-caps;
+}
+
+/* BookStack's "highlight" mark already carries an inline
+   background:transparent, so no override is needed here beyond making sure
+   nothing upstream re-adds a background under print. */
+.highlight {
+  background: transparent;
+}
+
+/* ========================================================================
+   Title page
+   The book title is the first h1 in the export, the one with no id. Its font-size
+   comes from an inline style BookStack wrote (left alone here); this just
+   positions it and forces the table of contents to start on its own page.
+   ======================================================================== */
+
+.page-content > h1:first-of-type {
+  text-align: center;
+  margin-top: 3in;
+}
+
+/* ========================================================================
+   Chapter divider pages
+   Every h1[id^="chapter-"] already lands on its own page (see .page-break
+   above), so this is purely the visual treatment of that divider page.
+   ======================================================================== */
+
+h1[id^="chapter-"] {
+  border-top: 1px solid var(--color-text);
+  padding-top: 0.2em;
+  font-size: 2.4em;
+  text-align: left;
+  /*margin-top: 3in;*/
+  /*margin-left: 20%;*/
+  margin-right: 20%;
+  letter-spacing: 0.02em;
+}
+
+/* ========================================================================
+   Section (page) titles and the running-header source above them
+   .chapter-hint is the small breadcrumb BookStack prints above every page
+   title. It's kept only as the source of the left-hand running header
+   (hence display:none): showing it again in the body text duplicated the
+   exact same label the margin box was already printing at the top of the
+   page, on every one of the 117 pages that carry one. string-set reads an
+   element's text content regardless of whether it's displayed, so hiding
+   it here doesn't affect the running header itself.
+
+   Both selectors below are extended to also match the empty spacer
+   paragraph BookStack always places right after a chapter heading. This
+   isn't decorative: the polyfill tracks only one selector per named
+   string for the whole document, and falls back to whatever the string
+   held on the previous page whenever that one selector finds nothing on
+   the current page. A chapter divider page has neither a .chapter-hint
+   nor a page heading on it, so without this, both running-header
+   strings would keep showing whatever the last real section was,
+   bleeding onto the divider page. Folding that empty, always-present
+   paragraph into the same selector gives the engine something to find
+   on divider pages specifically, and because it's genuinely empty, the
+   header comes out blank there instead of stale. A named "page:"
+   context could do this more directly, but testing that against the
+   real polyfill reproduced the same stray blank-page bug found earlier
+   with the table of contents, once per chapter.
+   ======================================================================== */
+
+.chapter-hint,
+h1[id^="chapter-"] + div > p {
+  string-set: chapter-title content();
+  display: none;
+}
+
+h1[id^="page-"],
+h1[id^="chapter-"] + div > p {
+  string-set: page-title content();
+  border-top: 1px solid var(--color-text);
+  padding-top: 0.15em;
+  font-size: 1.7em;
+  margin: 0 0 0.6em;
+}
+
+/* ========================================================================
+   Table of contents
+   BookStack already emits the one thing Paged.js needs to compute real page
+   numbers: a plain list of <a href="#some-id"> links pointing at the actual
+   headings. target-counter() looks up whatever page that id landed on after
+   layout and substitutes the number, so nothing needs to generate the list
+   itself, only style what is already there.
+   ======================================================================== */
+
+.contents {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  hyphens: none;
+}
+
+.contents li {
+  position: relative;
+  list-style: none;
+  margin-bottom: 0.35em;
+  overflow: hidden;
+}
+
+/* The dot leader is one deliberately oversized single line, clipped to the
+   row by the li's overflow:hidden above. This is simpler and more reliable
+   than wrapping a shorter string and stretching its last line: that
+   approach depends on exactly how the string happens to wrap at a given
+   column width, and produced no visible dots at all when it was tried
+   against this document. A single nowrap line clipped to width always
+   fills the row regardless of column width or font. */
+.contents li::before {
+  content: ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.2em;
+  white-space: nowrap;
+  overflow: hidden;
+  color: var(--color-rule);
+}
+
+/* The title stays plain, ordinary inline text; the dots run behind it
+   uninterrupted, which is how printed dot leaders normally look up close.
+   Only the page number gets pulled out to the right edge and given a
+   background, so the leader appears to stop cleanly just before the digits
+   rather than needing to be masked behind the whole line. */
+.contents li > a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.contents li > a::after {
+  content: target-counter(attr(href url), page);
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background: var(--color-paper);
+  padding-left: 0.5em;
+  font-variant-numeric: lining-nums;
+}
+
+/* Top-level chapter entries get a bolder, uppercase treatment; the page
+   entries nested under a chapter stay plain and get an extra indent. */
+.contents > li > a[href^="#chapter-"] {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.95em;
+  margin-top: 0.6em;
+}
+
+.contents .contents {
+  margin-left: 1.2em;
+}
+
+.contents .contents li > a {
+  font-weight: 400;
+  text-transform: none;
+}
